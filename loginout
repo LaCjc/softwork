@@ -1,0 +1,10 @@
+<?php
+
+
+  session_start();
+  define('LP',true);
+  require dirname(__FILE__).'/include/login.func.php';
+  include dirname(__FILE__).'\include\global.php';
+  _unsetcookies();
+
+?>
