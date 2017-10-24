@@ -1,0 +1,164 @@
+<?php
+ define('LP',true);
+ define('ROOT_PATH',substr(dirname(__FILE__),0,0));
+ header("Content-Type:text/html;charset=utf-8");
+ include ROOT_PATH.'include\mysql.func.php';
+ include ROOT_PATH.'include\login.func.php';
+ include ROOT_PATH.'include\global.php';
+ include ROOT_PATH.'include\borrow.func.php';
+ /*if(!isset($_COOKIE['username'])){
+	  _alert_back("请先登录！");
+	 }*/
+?>
+
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>搜索</title>
+</head>
+
+<body>
+<div>
+<nav class="navbar">
+    <ul>
+       <li><a href="register.php">注册</a></li>
+       <li><a href="login.php">登录</a></li>
+       <li><a href="search.php">搜索</a></li>
+       <li><a href="borrow.php">借阅</a></li>
+       <li><a href="book.php">书籍录入</a></li>
+       <li><a href="delete.php">删除书籍</a></li>
+       <li><a href="rebook.php">更改书籍信息</a></li>
+       <?php
+       if(@$_COOKIE['username']){
+       echo "<li><a href='message.php'>".$_COOKIE['username']."的个人中心</a></li>";
+         }
+       ?>
+    </ul>
+</nav>
+</div>
+<form action="search.php?action=search" method="post" name="borrow">
+书名：<input type="text" name="bookName">
+种类：<input type="text" name="category">
+<input type="submit" value="搜索">
+</form>
+<div id="bookList">
+<?php
+if(@$_GET['action']=='search'){
+$_result=_query("SELECT * from book");
+if(@!($_POST['bar']=='ck')){
+if($_result)   {           
+                     while(@$row=mysql_fetch_row($_result,MYSQL_ASSOC)){
+                      if($row['category']=="{$_POST['category']}" && $row['title']=="{$_POST['bookName']}"){
+                        echo "<table>";
+                        echo "<tr>";
+                        echo "<td>";
+                        echo "书名";
+                        echo "</td>";
+                        echo "<td>";
+                        echo "种类";
+                        echo "</td>";
+                        echo "<td>";
+                        echo "出版社";
+                        echo "</td>";
+                        echo "<td>";
+                        echo "操作";
+                        echo "</td>";
+                        echo "</tr>";
+                        echo "<tr>";
+                        echo "<td>";
+                        echo "<span id='title'>".$row['title']."</span>";
+                        echo "</td>";
+                        echo "<td>";
+                        echo "<span id='category'>".$row['category']."</span>";
+                        echo "</td>";
+                        echo "<td>";
+                        echo "<span id='press'>".$row['press']."</span>";
+                        echo "</td>";
+                        echo "<td>";
+                        echo "<a href='rebook.php'><button>更改书籍信息</button><a/>";
+                        echo "</td>";
+                        echo "</tr>";
+                        echo "</table>";
+                        echo "</br>";
+                        continue;
+                      }elseif($row['category']=="{$_POST['category']}"){
+                        echo "<table>";
+                        echo "<tr>";
+                        echo "<td>";
+                        echo "书名";
+                        echo "</td>";
+                        echo "<td>";
+                        echo "种类";
+                        echo "</td>";
+                        echo "<td>";
+                        echo "出版社";
+                        echo "</td>";
+                        echo "<td>";
+                        echo "操作";
+                        echo "</td>";
+                        echo "</tr>";
+                        echo "<tr>";
+                        echo "<td>";
+                        echo "<span id='title'>".$row['title']."</span>";
+                        echo "</td>";
+                        echo "<td>";
+                        echo "<span id='category'>".$row['category']."</span>";
+                        echo "</td>";
+                        echo "<td>";
+                        echo "<span id='press'>".$row['press']."</span>";
+                        echo "</td>";
+                        echo "<td>";
+                        echo "<a href='rebook.php'><button>更改书籍信息</button><a/>";
+                        echo "</td>";
+                        echo "</tr>";
+                        echo "</table>";
+                        echo "</br>";
+                        continue;
+                      }elseif ($row['title']=="{$_POST['bookName']}") {
+                        echo "<table>";
+                        echo "<tr>";
+                        echo "<td>";
+                        echo "书名";
+                        echo "</td>";
+                        echo "<td>";
+                        echo "种类";
+                        echo "</td>";
+                        echo "<td>";
+                        echo "出版社";
+                        echo "</td>";
+                        echo "<td>";
+                        echo "操作";
+                        echo "</td>";
+                        echo "</tr>";
+                        echo "<tr>";
+                        echo "<td>";
+                        echo "<span id='title'>".$row['title']."</span>";
+                        echo "</td>";
+                        echo "<td>";
+                        echo "<span id='category'>".$row['category']."</span>";
+                        echo "</td>";
+                        echo "<td>";
+                        echo "<span id='press'>".$row['press']."</span>";
+                        echo "</td>";
+                        echo "<td>";
+                        echo "<a href='rebook.php'><button>更改书籍信息</button><a/>";
+                        echo "</td>";
+                        echo "</tr>";
+                        echo "</table>";
+                        echo "</br>";
+                        continue;
+                      }
+                        
+                    } 
+                  }
+              }
+}
+echo "</br>";
+//echo @$arr[1]['title'];
+?>
+</div>
+<script src="js/jquery-3.0.0.min.js"></script>
+<script src="js/borrow.js"></script>
+</body>
+</html>
